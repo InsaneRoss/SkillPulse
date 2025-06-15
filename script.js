@@ -18,8 +18,9 @@ async function fetchData() {
     "Dungeoneering", "Divination", "Invention", "Archaeology", "Necromancy"
   ];
 
-  const hiscoreUrl = `https://skillpulse.vercel.app/api/hiscores?username=${encodeURIComponent(username)}`;
-  const runepixelsProxy = `https://skillpulse.vercel.app/api/runepixels?username=${encodeURIComponent(username)}`;
+const hiscoreUrl = `https://skillpulse-three.vercel.app/api/hiscores?username=${encodeURIComponent(username)}`;
+const runepixelsProxy = `https://skillpulse-three.vercel.app/api/runepixels?username=${encodeURIComponent(username)}`;
+
   const statsTable = document.querySelector("#statsTable tbody");
   statsTable.innerHTML = "";
 
