@@ -47,30 +47,33 @@ async function fetchData() {
     skillNames.forEach((skill, i) => {
       if (i >= lines.length) return;
       const [rank, level, xp] = lines[i].split(",");
-
       const parsedXP = parseInt(xp);
       if (isNaN(parsedXP)) return;
 
-      const todayXP = xpTodayMap[skill] || "0";
+      const todayXP = parseInt(xpTodayMap[skill]?.replace(/,/g, "") || "0");
       let xpLeft;
-if (skill === "Overall") {
-  const totalGoalXP = goalXP * (skillNames.length - 1);
-  xpLeft = Math.max(0, totalGoalXP - parseInt(xp));
-} else {
-  xpLeft = Math.max(0, goalXP - parseInt(xp));
-}
-
+      if (skill === "Overall") {
+        const totalGoalXP = goalXP * (skillNames.length - 1);
+        xpLeft = Math.max(0, totalGoalXP - parsedXP);
+      } else {
+        xpLeft = Math.max(0, goalXP - parsedXP);
+      }
       const xpPerDay = Math.ceil(xpLeft / daysLeft);
 
-      statsTable.innerHTML += `
+      let highlight = "";
+      if (!isNaN(todayXP)) {
+        highlight = todayXP >= xpPerDay ? 'style="background:#304d30"' : 'style="background:#4d3030"';
+      }
+
+      statsTable.innerHTML += \`
         <tr>
-          <td>${skill}</td>
-          <td>${level || '-'}</td>
-          <td>${parsedXP.toLocaleString()}</td>
-          <td>${todayXP}</td>
-          <td>${xpLeft.toLocaleString()}</td>
-          <td>${xpPerDay.toLocaleString()}</td>
-        </tr>`;
+          <td data-label="Skill">\${skill}</td>
+          <td data-label="Level">\${level}</td>
+          <td data-label="Total XP">\${parsedXP.toLocaleString()}</td>
+          <td data-label="Today XP">\${todayXP.toLocaleString()}</td>
+          <td data-label="XP Left">\${xpLeft.toLocaleString()}</td>
+          <td data-label="XP/Day Required" \${highlight}>\${xpPerDay.toLocaleString()}</td>
+        </tr>\`;
     });
   } catch {
     alert("Hiscore data failed to load.");
