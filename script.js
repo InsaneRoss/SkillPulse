@@ -18,7 +18,7 @@ async function fetchData() {
     "Dungeoneering", "Divination", "Invention", "Archaeology", "Necromancy"
   ];
 
-  const hiscoreUrl = `https://secure.runescape.com/m=hiscore/index_lite.ws?player=${encodeURIComponent(username)}`;
+  const hiscoreUrl = `https://skillpulse.vercel.app/api/hiscores?username=${encodeURIComponent(username)}`;
   const runepixelsProxy = `https://skillpulse.vercel.app/api/runepixels?username=${encodeURIComponent(username)}`;
   const statsTable = document.querySelector("#statsTable tbody");
   statsTable.innerHTML = "";
