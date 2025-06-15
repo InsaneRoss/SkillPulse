@@ -52,7 +52,14 @@ async function fetchData() {
       if (isNaN(parsedXP)) return;
 
       const todayXP = xpTodayMap[skill] || "0";
-      const xpLeft = Math.max(0, goalXP - parsedXP);
+      let xpLeft;
+if (skill === "Overall") {
+  const totalGoalXP = goalXP * (skillNames.length - 1);
+  xpLeft = Math.max(0, totalGoalXP - parseInt(xp));
+} else {
+  xpLeft = Math.max(0, goalXP - parseInt(xp));
+}
+
       const xpPerDay = Math.ceil(xpLeft / daysLeft);
 
       statsTable.innerHTML += `
