@@ -21,12 +21,9 @@ async function fetchData() {
   const hiscoreUrl = `https://skillpulse-three.vercel.app/api/hiscores?username=${encodeURIComponent(username)}`;
   const runepixelsProxy = `https://skillpulse-three.vercel.app/api/runepixels?username=${encodeURIComponent(username)}`;
   const statsTable = document.querySelector("#statsTable tbody");
-  const tableHeader = document.querySelector("#tableHeader");
   statsTable.innerHTML = "";
 
   let xpTodayMap = {};
-  let showTodayColumn = false;
-
   try {
     const res = await fetch(runepixelsProxy);
     const html = await res.text();
@@ -35,20 +32,11 @@ async function fetchData() {
     rows.forEach(row => {
       const cells = row.querySelectorAll("td");
       if (cells.length === 5) {
-        const skill = cells[0].innerText.trim();
-        const todayXP = cells[4].innerText.trim();
-        if (todayXP && todayXP !== "0") showTodayColumn = true;
-        xpTodayMap[skill] = todayXP;
+        xpTodayMap[cells[0].innerText.trim()] = cells[4].innerText.trim();
       }
     });
   } catch {
-    console.warn("RunePixels data failed to load.");
-  }
-
-  if (!showTodayColumn) {
-    document.querySelectorAll(".todayXP").forEach(el => el.style.display = "none");
-  } else {
-    document.querySelectorAll(".todayXP").forEach(el => el.style.display = "");
+    alert("RunePixels data failed to load.");
   }
 
   try {
@@ -62,7 +50,7 @@ async function fetchData() {
       const parsedXP = parseInt(xp);
       if (isNaN(parsedXP)) return;
 
-      const todayXP = parseInt((xpTodayMap[skill] || "0").replace(/,/g, "")) || 0;
+      const todayXP = parseInt(xpTodayMap[skill]?.replace(/,/g, "") || "0");
       let xpLeft;
       if (skill === "Overall") {
         const totalGoalXP = goalXP * (skillNames.length - 1);
@@ -70,20 +58,21 @@ async function fetchData() {
       } else {
         xpLeft = Math.max(0, goalXP - parsedXP);
       }
-
       const xpPerDay = Math.ceil(xpLeft / daysLeft);
-      const xpColor = showTodayColumn
-        ? (todayXP >= xpPerDay ? 'style="background:#304d30"' : 'style="background:#4d3030"')
-        : "";
+
+      let highlight = "";
+      if (!isNaN(todayXP)) {
+        highlight = todayXP >= xpPerDay ? 'style="background:#304d30"' : 'style="background:#4d3030"';
+      }
 
       statsTable.innerHTML += \`
         <tr>
           <td data-label="Skill">\${skill}</td>
           <td data-label="Level">\${level}</td>
           <td data-label="Total XP">\${parsedXP.toLocaleString()}</td>
-          \${showTodayColumn ? `<td data-label="Today XP">\${todayXP.toLocaleString()}</td>` : ""}
+          <td data-label="Today XP">\${todayXP.toLocaleString()}</td>
           <td data-label="XP Left">\${xpLeft.toLocaleString()}</td>
-          <td data-label="XP/Day Required" \${xpColor}>\${xpPerDay.toLocaleString()}</td>
+          <td data-label="XP/Day Required" \${highlight}>\${xpPerDay.toLocaleString()}</td>
         </tr>\`;
     });
   } catch {
