@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RS3 XP Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Skill Pulse</h1>
+  <div class="controls">
+    <input type="text" id="username" placeholder="Username" />
+    <input type="number" id="goalXP" placeholder="Goal XP (e.g. 200000000)" />
+    <input type="date" id="targetDate" />
+    <button onclick="fetchData()">Fetch Stats</button>
+  </div>
+  <div id="results">
+    <table id="statsTable">
+      <thead>
+        <tr>
+          <th>Skill</th><th>Level</th><th>XP</th><th>Today</th><th>XP Left</th><th>XP/Day Required</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
