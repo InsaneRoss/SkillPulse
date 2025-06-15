@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,12 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skill Pulse</title>
   <style>
-    body { font-family: sans-serif; margin: 10px; background: #111; color: #eee; }
-    input, button { padding: 8px; font-size: 16px; margin: 5px 5px 10px 0; }
+    body { font-family: sans-serif; margin: 10px; padding: 0; background: #111; color: #eee; }
+    input, button { padding: 8px; font-size: 16px; margin: 5px 0; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    th, td { padding: 6px; border-bottom: 1px solid #444; text-align: left; }
+    th, td { padding: 6px; text-align: left; border-bottom: 1px solid #444; }
     th { background-color: #222; }
     tr:hover { background-color: #1c1c1c; }
+    .good { background-color: #304d30; }
+    .bad { background-color: #4d3030; }
     @media screen and (max-width: 600px) {
       table, thead, tbody, th, td, tr { display: block; }
       tr { margin-bottom: 15px; }
@@ -40,7 +43,7 @@
         <th>Skill</th>
         <th>Level</th>
         <th>Total XP</th>
-        <th class="todayXP">Today XP</th>
+        <th class="todayXPCol">Today XP</th>
         <th>XP Left</th>
         <th>XP/Day Required</th>
       </tr>
